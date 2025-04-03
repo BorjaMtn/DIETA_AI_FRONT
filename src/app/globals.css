@@ -44,13 +44,6 @@
 }
 
 :root {
-  --color-theme-primary: #4CAF50; /* Verde Claro */
-  --color-theme-secondary: #2196F3; /* Azul Claro */
-  --color-theme-background: #FFFFFF; /* Blanco */
-  --color-theme-text: #333333; /* Gris Oscuro */
-  --color-theme-success: #388E3C; /* Verde Oscuro */
-  --color-theme-error: #F44336; /* Rojo */
-  --color-theme-background-secondary: #F5F5F5; /* Gris Claro */
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
