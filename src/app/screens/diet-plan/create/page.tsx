@@ -28,7 +28,7 @@ const CreateDietPlanPage = () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("No se encontró el token de autenticación");
+      toast.error("No se encontró el token de autenticación");
       console.log("Token no encontrado");
       return;
     }
@@ -82,19 +82,19 @@ const CreateDietPlanPage = () => {
         }, 2000);// Redirigir a la lista de planes despues de 2 segundos
       } else {
         const errorData = await response.json();
-        alert(`Error al crear el plan: ${errorData.message || "Error desconocido"}`);
+        // alert(`Error al crear el plan: ${errorData.message || "Error desconocido"}`);
         console.error("Error al crear el plan:", errorData);
       }
     } catch (error) {
       console.error("Error al realizar la solicitud:", error);
-      alert("Error al crear el plan");
+      toast.error("Error al crear el plan");
     }
   };
 
   return (
     <>
       <Navbar />
-      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
+      <ToastContainer position="top-center" autoClose={1500} hideProgressBar />
       <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
         <div className="max-w-4xl mx-auto p-6 space-y-8">
           <h1 className="text-5xl font-extrabold text-center mb-6 text-gray-800 drop-shadow-md">

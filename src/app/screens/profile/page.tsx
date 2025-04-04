@@ -134,7 +134,7 @@ const Profile: React.FC = () => {
       if (file.type.startsWith("image/")) {
         setImage(file);
       } else {
-        alert("Por favor, selecciona un archivo de imagen válido.");
+        toast.error("Por favor, selecciona un archivo de imagen válido.");
       }
     }
   };

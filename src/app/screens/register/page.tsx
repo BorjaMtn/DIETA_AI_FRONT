@@ -4,6 +4,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import Button from '../../components/Button';
 import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -18,7 +20,7 @@ const Register = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('Las contraseñas no coinciden');
+      toast.error('Las contraseñas no coinciden');
       return;
     }
 
@@ -36,7 +38,7 @@ const Register = () => {
       if (response.status === 201) {
         const { token } = response.data;
         localStorage.setItem('token', token); // Guardar el token en localStorage
-        alert('Usuario registrado con éxito');
+        toast.success('Usuario registrado con éxito');
         router.push('/'); // Redirigir a la página principal
       }
     } catch (error) {
@@ -49,6 +51,7 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <ToastContainer position="top-center" autoClose={1500} hideProgressBar />
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-lg">
         <h2 className="text-3xl font-extrabold text-center text-gray-900">Crear cuenta</h2>
 
