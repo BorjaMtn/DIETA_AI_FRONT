@@ -7,13 +7,14 @@ import Footer from '@/components/Footer';
 const CreateDietRecommendationPage = () => {
   const [preferences, setPreferences] = useState('');
   const [goal, setGoal] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [loadingRecommendation, setLoadingRecommendation] = useState(false);
+  const [loadingAllRecommendations, setLoadingAllRecommendations] = useState(false);
   const [error, setError] = useState('');
   const [recommendation, setRecommendation] = useState(null);
   const [allRecommendations, setAllRecommendations] = useState(null);
 
   const handleGetRecommendation = async () => {
-    setLoading(true);
+    setLoadingRecommendation(true);
     setError('');
     setRecommendation(null);
 
@@ -36,12 +37,12 @@ const CreateDietRecommendationPage = () => {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ocurrió un error inesperado.');
     } finally {
-      setLoading(false);
+      setLoadingRecommendation(false);
     }
   };
 
   const handleGetAllRecommendations = async () => {
-    setLoading(true);
+    setLoadingAllRecommendations(true);
     setError('');
     setAllRecommendations(null);
 
@@ -62,7 +63,7 @@ const CreateDietRecommendationPage = () => {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ocurrió un error inesperado.');
     } finally {
-      setLoading(false);
+      setLoadingAllRecommendations(false);
     }
   };
 
@@ -104,12 +105,12 @@ const CreateDietRecommendationPage = () => {
               type="button"
               onClick={handleGetRecommendation}
               className={`w-full py-3 px-4 text-white font-semibold rounded-md flex items-center justify-center transition-all ${
-                loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
+                loadingRecommendation ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
               }`}
-              disabled={loading}
+              disabled={loadingRecommendation}
             >
-              {loading ? <FaSpinner className="animate-spin mr-2" /> : null}
-              {loading ? 'Cargando...' : 'Obtener Recomendación'}
+              {loadingRecommendation ? <FaSpinner className="animate-spin mr-2" /> : null}
+              {loadingRecommendation ? 'Cargando...' : 'Obtener Recomendación'}
             </button>
           </form>
 
@@ -117,12 +118,12 @@ const CreateDietRecommendationPage = () => {
             type="button"
             onClick={handleGetAllRecommendations}
             className={`mt-4 w-full py-3 px-4 text-white font-semibold rounded-md flex items-center justify-center transition-all ${
-              loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+              loadingAllRecommendations ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
             }`}
-            disabled={loading}
+            disabled={loadingAllRecommendations}
           >
-            {loading ? <FaSpinner className="animate-spin mr-2" /> : null}
-            {loading ? 'Cargando...' : 'Ver Todas las Recomendaciones'}
+            {loadingAllRecommendations ? <FaSpinner className="animate-spin mr-2" /> : null}
+            {loadingAllRecommendations ? 'Cargando...' : 'Ver Todas las Recomendaciones'}
           </button>
 
           {error && (
