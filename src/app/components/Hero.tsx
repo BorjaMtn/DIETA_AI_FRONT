@@ -1,4 +1,3 @@
-// components/HeroSection.tsx
 'use client';
 import React from 'react';
 import Link from 'next/link';
@@ -6,10 +5,13 @@ import Link from 'next/link';
 const Hero = () => {
   return (
     <section className="relative bg-cover bg-center py-24 px-8 flex flex-col items-center justify-center">
+      {/* Imagen de fondo */}
       <div 
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: 'url("/image/image-hero.webp")' }}
+        style={{ backgroundImage: 'url("/images/image-hero.webp")' }}
       ></div>
+
+      {/* Contenido */}
       <div className="relative z-10 max-w-4xl p-8 text-center bg-gradient-to-r from-white/80 via-white/70 to-white/80 rounded-3xl shadow-2xl backdrop-blur-sm">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight text-[#2196F3]">
           Mejora tu vida con un plan nutricional único
