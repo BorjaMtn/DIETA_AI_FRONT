@@ -4,6 +4,8 @@ import axios from "axios";
 import Button from "@/app/components/Button";
 import { PencilIcon, CameraIcon } from "@heroicons/react/24/solid";
 import Navbar from "@/app/components/Navbar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Profile: React.FC = () => {
   const [name, setName] = useState("");
@@ -61,7 +63,6 @@ const Profile: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const updatedFields: Record<string, any> = {};
     if (name.trim()) updatedFields.name = name.trim();
     if (goal.trim()) updatedFields.goal = goal.trim();
@@ -96,7 +97,7 @@ const Profile: React.FC = () => {
         }
       );
       setIsSubmitted(true);
-      alert("Perfil actualizado exitosamente.");
+      toast.success("Perfil actualizado exitosamente.");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Error updating profile:", error.response || error); // Log the error response
@@ -140,6 +141,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className={`min-h-screen flex flex-col ${darkMode ? 'bg-gray-900 text-white' : 'bg-gradient-to-r from-purple-200 via-pink-300 to-orange-200'}`}>
+      <ToastContainer position="top-center" autoClose={1500} hideProgressBar />
       <Navbar /> {/* Navbar at the top */}
       <main className="flex-grow p-6 flex justify-center items-center">
         <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-4xl">
