@@ -26,7 +26,7 @@ const Hero = () => {
             Comienza Ahora
           </Link>
           <Link 
-            href="/mas-informacion"
+            href="/screens/about"
             className="border-2 border-[#2196F3] text-[#2196F3] py-3 px-8 rounded-full text-lg font-medium hover:bg-[#2196F3] hover:text-white transition-all duration-300">
             Más Información
           </Link>
