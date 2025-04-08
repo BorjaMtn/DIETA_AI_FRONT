@@ -164,11 +164,20 @@ const Profile: React.FC = () => {
         <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-4xl">
           <div className="flex justify-center items-center mb-6">
             <div className="relative">
-              {image instanceof File ? (
-                <img src={URL.createObjectURL(image)} alt="Preview" />
-              ) : typeof image === "string" ? (
-                <img src={`http://localhost:8000/storage/${image}`} alt="Actual" />
-              ) : null}
+                {image instanceof File ? (
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="Preview"
+                  className="w-40 h-auto rounded-full object-cover shadow-lg"
+                />
+                ) : typeof image === "string" ? (
+                <img
+                  src={`http://localhost:8000/storage/${image}`}
+                  alt="Actual"
+                  className="w-40 h-auto rounded-full object-cover shadow-lg"
+                />
+                ) : null}
+
 
               <label htmlFor="image-upload" className="absolute bottom-0 right-0 bg-white rounded-full p-1 cursor-pointer">
                 <CameraIcon className="w-6 h-6 text-gray-700" />
