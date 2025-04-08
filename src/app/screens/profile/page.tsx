@@ -91,27 +91,27 @@ const Profile: React.FC = () => {
     try {
       const formData = new FormData();
 
-Object.entries(updatedFields).forEach(([key, value]) => {
-  if (Array.isArray(value)) {
-    // Para arrays como 'progress', agregamos como múltiples campos
-    value.forEach((item, index) => {
-      formData.append(`${key}[${index}]`, item);
-    });
-  } else {
-    formData.append(key, value);
-  }
-});
+      Object.entries(updatedFields).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          // Para arrays como 'progress', agregamos como múltiples campos
+          value.forEach((item, index) => {
+            formData.append(`${key}[${index}]`, item);
+          });
+        } else {
+          formData.append(key, value);
+        }
+      });
 
-await axios.post(
-  "/api/profile?_method=PUT", // Laravel puede interpretar PUT si mandas POST con este override
-  formData,
-  {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "multipart/form-data",
-    },
-  }
-);
+      await axios.post(
+        "/api/profile?_method=PUT", // Laravel puede interpretar PUT si mandas POST con este override
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       setIsSubmitted(true);
       toast.success("Perfil actualizado exitosamente.");
@@ -164,11 +164,12 @@ await axios.post(
         <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-4xl">
           <div className="flex justify-center items-center mb-6">
             <div className="relative">
-              <img
-                src={image ? URL.createObjectURL(image) : "/default-avatar.png"}
-                alt="Perfil"
-                className="w-32 h-32 rounded-full border-4 border-gray-300 object-cover"
-              />
+              {image instanceof File ? (
+                <img src={URL.createObjectURL(image)} alt="Preview" />
+              ) : typeof image === "string" ? (
+                <img src={`http://localhost:8000/storage/${image}`} alt="Actual" />
+              ) : null}
+
               <label htmlFor="image-upload" className="absolute bottom-0 right-0 bg-white rounded-full p-1 cursor-pointer">
                 <CameraIcon className="w-6 h-6 text-gray-700" />
                 <input
