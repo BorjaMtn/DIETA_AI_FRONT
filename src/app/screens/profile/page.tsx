@@ -46,7 +46,7 @@ const Profile: React.FC = () => {
         setSocialLinks(data.socialLinks || "");
         setLanguage(data.language || "es");
         setDarkMode(data.darkMode || false);
-        setImage(data.image ? data.image : null); // Set image URL from backend
+        setImage(data.image || null);
         setGender(data.gender || "");
         setAge(data.age || "");
       } catch (error) {
@@ -72,48 +72,54 @@ const Profile: React.FC = () => {
     if (phone.trim()) updatedFields.phone = phone.trim();
     if (location.trim()) updatedFields.location = location.trim();
     if (activityHistory.trim()) updatedFields.activityHistory = activityHistory.trim();
-    if (progress.length > 0) updatedFields.progress = progress;
+    if (progress.length > 0) updatedFields.progress = progress; // Ensure progress is an array
     if (socialLinks.trim()) updatedFields.socialLinks = socialLinks.trim();
     if (language) updatedFields.language = language;
     updatedFields.darkMode = darkMode;
+    if (image) updatedFields.image = image;
     if (gender.trim()) updatedFields.gender = gender.trim();
     if (age.trim()) updatedFields.age = age.trim();
 
-    if (Object.keys(updatedFields).length === 0 && !image) {
+    if (Object.keys(updatedFields).length === 0) {
       setError("No hay cambios para guardar.");
       return;
     }
 
-    const formData = new FormData();
-    Object.keys(updatedFields).forEach((key) => {
-      formData.append(key, updatedFields[key]);
-    });
-
-    if (image) {
-      formData.append("image", image); // Add the image file to FormData
-      console.log("Image file appended to FormData:", image); // Debugging log
-    }
-
-    // Debugging log to verify FormData content
-    for (const pair of formData.entries()) {
-      console.log(`${pair[0]}:`, pair[1]);
-    }
+    console.log("Payload being sent to the server:", updatedFields); // Debugging log
 
     setIsLoading(true);
     try {
-      await axios.put("/api/profile", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data", // Set the correct content type
-        },
-      });
+      const formData = new FormData();
+
+Object.entries(updatedFields).forEach(([key, value]) => {
+  if (Array.isArray(value)) {
+    // Para arrays como 'progress', agregamos como múltiples campos
+    value.forEach((item, index) => {
+      formData.append(`${key}[${index}]`, item);
+    });
+  } else {
+    formData.append(key, value);
+  }
+});
+
+await axios.post(
+  "/api/profile?_method=PUT", // Laravel puede interpretar PUT si mandas POST con este override
+  formData,
+  {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "multipart/form-data",
+    },
+  }
+);
+
       setIsSubmitted(true);
       toast.success("Perfil actualizado exitosamente.");
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.error("Error updating profile:", error.response || error);
+        console.error("Error updating profile:", error.response || error); // Log the error response
       } else {
-        console.error("Error updating profile:", error);
+        console.error("Error updating profile:", error); // Log generic error
       }
       setError("Error al actualizar el perfil.");
     } finally {
@@ -159,7 +165,7 @@ const Profile: React.FC = () => {
           <div className="flex justify-center items-center mb-6">
             <div className="relative">
               <img
-                src={image ? (typeof image === "string" ? image : URL.createObjectURL(image)) : "/default-avatar.png"}
+                src={image ? URL.createObjectURL(image) : "/default-avatar.png"}
                 alt="Perfil"
                 className="w-32 h-32 rounded-full border-4 border-gray-300 object-cover"
               />
