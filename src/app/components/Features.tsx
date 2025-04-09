@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const features = [
   { title: "Planes Personalizados", description: "Dietas adaptadas a tus metas y restricciones.", icon: "🍏" },
-  { title: "Recetas Saludables", description: "Deliciosas recetas que se ajustan a tu dieta.", icon: "🍳" },
+  { title: "Recetas Saludables", description: "Deliciosas recetas que se ajustan a tu dieta.", icon: "🍳", link: "/screens/recipes" },
   { title: "Asistente Virtual", description: "Recibe recomendaciones personalizadas de nutrición.", icon: "🤖" },
   { title: "Seguimiento de Progreso", description: "Monitorea tu avance y ajusta tu dieta en tiempo real.", icon: "📊" },
 ];
@@ -20,7 +20,12 @@ const Features = () => {
             <div className="text-5xl mb-6 transition-all duration-500 ease-in-out">{feature.icon}</div>
             <h3 className="text-2xl font-bold mb-2 text-[var(--color-theme-text)]">{feature.title}</h3>
             <p className="text-lg text-gray-600">{feature.description}</p>
-            <Link href="/screens/panel-usuario" className="text-[var(--color-theme-secondary)] hover:text-[var(--color-theme-success)] mt-4 inline-block transition-all duration-300">Ver más</Link>
+            <Link 
+              href={feature.link || "/screens/panel-usuario"} 
+              className="text-[var(--color-theme-secondary)] hover:text-[var(--color-theme-success)] mt-4 inline-block transition-all duration-300"
+            >
+              Ver más
+            </Link>
           </div>
         ))}
       </div>
