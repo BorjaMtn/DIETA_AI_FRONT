@@ -63,69 +63,73 @@ const Profile: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const updatedFields: Record<string, any> = {};
-    if (name.trim()) updatedFields.name = name.trim();
-    if (goal.trim()) updatedFields.goal = goal.trim();
-    if (preferences.trim()) updatedFields.preferences = preferences.trim();
-    if (restrictions.trim()) updatedFields.restrictions = restrictions.trim();
-    if (phone.trim()) updatedFields.phone = phone.trim();
-    if (location.trim()) updatedFields.location = location.trim();
-    if (activityHistory.trim()) updatedFields.activityHistory = activityHistory.trim();
-    if (progress.length > 0) updatedFields.progress = progress; // Ensure progress is an array
-    if (socialLinks.trim()) updatedFields.socialLinks = socialLinks.trim();
-    if (language) updatedFields.language = language;
-    updatedFields.darkMode = darkMode;
-    if (image) updatedFields.image = image;
-    if (gender.trim()) updatedFields.gender = gender.trim();
-    if (age.trim()) updatedFields.age = age.trim();
-
-    if (Object.keys(updatedFields).length === 0) {
-      setError("No hay cambios para guardar.");
-      return;
-    }
-
-    console.log("Payload being sent to the server:", updatedFields); // Debugging log
-
-    setIsLoading(true);
-    try {
-      const formData = new FormData();
-
-      Object.entries(updatedFields).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          // Para arrays como 'progress', agregamos como múltiples campos
-          value.forEach((item, index) => {
-            formData.append(`${key}[${index}]`, item);
-          });
-        } else {
-          formData.append(key, value);
-        }
-      });
-
-      await axios.post(
-        "/api/profile?_method=PUT", // Laravel puede interpretar PUT si mandas POST con este override
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      setIsSubmitted(true);
-      toast.success("Perfil actualizado exitosamente.");
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Error updating profile:", error.response || error); // Log the error response
-      } else {
-        console.error("Error updating profile:", error); // Log generic error
-      }
-      setError("Error al actualizar el perfil.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        e.preventDefault();
+        const updatedFields: Record<string, any> = {};
+        if (name.trim()) updatedFields.name = name.trim();
+        if (goal.trim()) updatedFields.goal = goal.trim();
+        if (preferences.trim()) updatedFields.preferences = preferences.trim();
+        if (restrictions.trim()) updatedFields.restrictions = restrictions.trim();
+        if (phone.trim()) updatedFields.phone = phone.trim();
+        if (location.trim()) updatedFields.location = location.trim();
+        if (activityHistory.trim()) updatedFields.activityHistory = activityHistory.trim();
+        if (progress.length > 0) updatedFields.progress = progress; // Ensure progress is an array
+        if (socialLinks.trim()) updatedFields.socialLinks = socialLinks.trim();
+        if (language) updatedFields.language = language;
+        updatedFields.darkMode = darkMode;
+        if (gender.trim()) updatedFields.gender = gender.trim();
+        if (age.trim()) updatedFields.age = age.trim();
+    
+        if (Object.keys(updatedFields).length === 0 && !image) { // Si no hay otros cambios y no hay nueva imagen
+          setError("No hay cambios para guardar.");
+          return;
+        }
+    
+        console.log("Payload being sent to the server:", updatedFields); // Debugging log
+    
+        setIsLoading(true);
+        try {
+          const formData = new FormData();
+    
+          Object.entries(updatedFields).forEach(([key, value]) => {
+            if (Array.isArray(value)) {
+              // Para arrays como 'progress', agregamos como múltiples campos
+              value.forEach((item, index) => {
+                formData.append(`${key}[${index}]`, item);
+              });
+            } else {
+              formData.append(key, value);
+            }
+          });
+    
+          // Solo añadir la imagen al formData si es un nuevo archivo
+          if (image instanceof File) {
+            formData.append("image", image);
+          }
+    
+          await axios.post(
+            "/api/profile?_method=PUT", // Laravel puede interpretar PUT si mandas POST con este override
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+    
+          setIsSubmitted(true);
+          toast.success("Perfil actualizado exitosamente.");
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            console.error("Error updating profile:", error.response || error); // Log the error response
+          } else {
+            console.error("Error updating profile:", error); // Log generic error
+          }
+          setError("Error al actualizar el perfil.");
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
   const handleClear = () => {
     setName("");
