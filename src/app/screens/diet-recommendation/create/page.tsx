@@ -127,8 +127,6 @@ const CreateDietRecommendationPage = () => {
       setRecommendation(data.dietRecommendation);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ocurrió un error inesperado.");
-    } finally {
-      setLoading(false);
     }
   };
 

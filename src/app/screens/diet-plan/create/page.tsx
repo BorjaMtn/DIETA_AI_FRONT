@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation"; // Importar useRouter para redirección
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Calendar, Target, Clipboard, Flame, FileText, StickyNote, Timer, CheckCircle } from "lucide-react";
 
 const CreateDietPlanPage = () => {
@@ -20,12 +22,13 @@ const CreateDietPlanPage = () => {
   const [endDate, setEndDate] = useState(""); // nullable|date
   const [notes, setNotes] = useState(""); // nullable|string
   const [status, setStatus] = useState("active"); // already included
+  
 
   const handleCreatePlan = async () => {
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("No se encontró el token de autenticación");
+      toast.error("No se encontró el token de autenticación");
       console.log("Token no encontrado");
       return;
     }
@@ -72,23 +75,26 @@ const CreateDietPlanPage = () => {
       console.log("Respuesta recibida:", response);
 
       if (response.ok) {
-        alert("Plan de dieta creado correctamente");
+        toast.success("Plan de dieta creado correctamente");
         console.log("Plan de dieta creado correctamente");
-        router.push("/diet-plan/list"); // Redirigir a la lista de planes
+        setTimeout(() => {
+          router.push("/screens/diet-plan/list");
+        }, 2000);// Redirigir a la lista de planes despues de 2 segundos
       } else {
         const errorData = await response.json();
-        alert(`Error al crear el plan: ${errorData.message || "Error desconocido"}`);
+        // alert(`Error al crear el plan: ${errorData.message || "Error desconocido"}`);
         console.error("Error al crear el plan:", errorData);
       }
     } catch (error) {
       console.error("Error al realizar la solicitud:", error);
-      alert("Error al crear el plan");
+      toast.error("Error al crear el plan");
     }
   };
 
   return (
     <>
       <Navbar />
+      <ToastContainer position="top-center" autoClose={1500} hideProgressBar />
       <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100">
         <div className="max-w-4xl mx-auto p-6 space-y-8">
           <h1 className="text-5xl font-extrabold text-center mb-6 text-gray-800 drop-shadow-md">
