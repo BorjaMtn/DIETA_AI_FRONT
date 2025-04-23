@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
-import { Loader2, ShieldCheck, Apple, Brain } from 'lucide-react';
+import { Loader2, Brain } from 'lucide-react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 
@@ -83,11 +84,13 @@ const Login = () => {
           </h1>
           <p className="mt-6 text-gray-600 text-lg text-center max-w-md">
             Planes nutricionales personalizados, recetas inteligentes y asesoramiento de IA. Todo en una sola app.
-          </p>
-          <img
+            </p>
+          <Image
             src="/images/nutrition-illustration.png"
             alt="IA Nutrición"
-            className="w-[300px] mt-8 drop-shadow-xl animate-float"
+            width={300}
+            height={300}
+            className="mt-8 drop-shadow-xl animate-float"
           />
         </motion.div>
 
