@@ -308,15 +308,15 @@ export default function FoodSearch() {
                     <p><strong>Países:</strong> {selectedFood.countries || "N/A"}</p>
                     {/* *** Usando next/image *** */}
                     {selectedFood.image_front_url && (
-                         <div className="relative w-full h-40 mt-2"> {/* Contenedor */}
-                            <Image
-                                src={selectedFood.image_front_url}
-                                alt={`Imagen de ${selectedFood.product_name || 'producto'}`}
-                                width={250} // Ajusta según necesidad
-                                height={160} // Ajusta según necesidad
-                                className="object-contain rounded-lg bg-gray-50 mx-auto"
-                            />
-                         </div>
+                      <div className="w-full mt-2">
+                        <Image
+                          src={selectedFood.image_front_url}
+                          alt={`Imagen de ${selectedFood.product_name || 'producto'}`}
+                          width={250}
+                          height={160}
+                          className="object-contain rounded-lg bg-gray-50 mx-auto"
+                        />
+                      </div>
                     )}
                 </div>
 
