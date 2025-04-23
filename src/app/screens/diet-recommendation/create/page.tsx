@@ -33,7 +33,7 @@ const CreateDietRecommendationPage = () => {
   const [modalData, setModalData] = useState<{
     calorias: number | null;
     macros: { carbs: number; protein: number; fat: number } | null;
-    objetivo: string;
+    goal: string;
     preferencias?: string; // Hacer preferencias opcional
     restricciones?: string[]; // Hacer restricciones opcional
   } | null>(null);
@@ -78,7 +78,7 @@ const CreateDietRecommendationPage = () => {
       setModalData({
         calorias: caloriasObjetivo,
         macros: macrosCalculados,
-        objetivo: goal,
+        goal: goal,
         preferencias: preferences,
         restricciones: restrictions,
       });
@@ -109,7 +109,6 @@ const CreateDietRecommendationPage = () => {
           Authorization: `Bearer ${token}`, // Si estás usando sanctum o JWT
         },
         body: JSON.stringify({
-          user_id: parseInt(token || "0"),
           goal: goal,
           calories_per_day: caloriasObjetivo,
           macros: macrosCalculados,
@@ -285,7 +284,7 @@ const CreateDietRecommendationPage = () => {
               <div className="space-y-4">
                 <div className="text-center">
                   <p className="text-xl font-semibold text-purple-700 mb-2">
-                    <strong>Objetivo:</strong> {modalData.objetivo.replace(/_/g, " ")}
+                    <strong>Objetivo:</strong> {modalData.goal.replace(/_/g, " ")}
                   </p>
                   {modalData.preferencias && (
                     <p className="text-lg text-gray-700 mb-1">
