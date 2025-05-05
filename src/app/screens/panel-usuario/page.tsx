@@ -5,7 +5,7 @@ import { Line, Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Activity, Droplet, Moon, Target, HeartPulse, Gauge, Flame } from 'lucide-react';
+import { Droplet, Moon, Target, HeartPulse, Gauge } from 'lucide-react';
 import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
 
